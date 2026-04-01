@@ -2,18 +2,18 @@
 
 namespace LBHurtado\Contact\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use LBHurtado\Contact\Contracts\Bankable;
 use LBHurtado\Contact\Database\Factories\ContactFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use LBHurtado\Contact\Traits\HasAdditionalAttributes;
-use LBHurtado\Contact\Traits\HasBankAccount;
-use LBHurtado\Contact\Traits\HasMeta;
-use LBHurtado\Contact\Traits\HasMobile;
 use LBHurtado\HyperVerge\Traits\HasFaceVerification;
-use Spatie\MediaLibrary\HasMedia;
+use LBHurtado\Contact\Traits\HasBankAccount;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use LBHurtado\Contact\Contracts\Bankable;
+use Illuminate\Database\Eloquent\Model;
+use LBHurtado\Contact\Traits\HasMobile;
+use LBHurtado\Contact\Traits\HasMeta;
+use Spatie\MediaLibrary\HasMedia;
 
 /**
  * Class Contact.
