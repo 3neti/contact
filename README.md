@@ -29,7 +29,7 @@ A contact can:
 ## 📦 Installation
 
 ```bash
-composer require 3neti/contact
+composer require 3neti/contact:^1.2
 ```
 
 ---
@@ -219,6 +219,9 @@ In the x-change ecosystem:
 - Testbench
 - SQLite in-memory
 - test-only migrations
+
+The release matrix covers PHP 8.3 and 8.4 on Laravel 12 and 13. Contact remains
+compatible with Laravel 11 through its declared Illuminate constraints.
 
 ---
 
