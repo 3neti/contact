@@ -7,6 +7,8 @@ use LBHurtado\Contact\Database\Factories\ContactFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use LBHurtado\Contact\Traits\HasAdditionalAttributes;
 use LBHurtado\HyperVerge\Traits\HasFaceVerification;
+use LBHurtado\HyperVerge\Data\KycEvidenceArtifact;
+use LBHurtado\HyperVerge\Services\KycEvidenceCatalog;
 use LBHurtado\Contact\Traits\HasBankAccount;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use LBHurtado\Contact\Contracts\Bankable;
@@ -82,10 +84,10 @@ class Contact extends Model implements Bankable, HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('kyc_id_cards')
-            ->useDisk('public');
+            ->useDisk((string) config('contact.kyc.disk', 'local'));
 
         $this->addMediaCollection('kyc_selfies')
-            ->useDisk('public');
+            ->useDisk((string) config('contact.kyc.disk', 'local'));
 
         $this->addMediaCollection('face_reference_selfies')
             ->singleFile()
@@ -112,6 +114,18 @@ class Contact extends Model implements Bankable, HasMedia
     public function needsKyc(): bool
     {
         return ! $this->isKycApproved();
+    }
+
+    /** @return list<KycEvidenceArtifact> */
+    public function kycEvidence(?string $transactionId = null): array
+    {
+        return app(KycEvidenceCatalog::class)->for($this, $transactionId);
+    }
+
+    /** @return array{contents:string,mime_type:string,extension:string,size:int,sha256:string} */
+    public function readKycEvidence(string $mediaId): array
+    {
+        return app(KycEvidenceCatalog::class)->read($this, $mediaId);
     }
 
     public function getBankCodeAttribute(): ?string
